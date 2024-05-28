@@ -7,7 +7,7 @@
     },
     "servers": [
       {
-        "url": "http://proyectoguillermo-production.up.railway.app",
+        "url": "https://proyectoguillermo-production.up.railway.app",
         "description": "Servidor Local para API REST"
       }
     ]
