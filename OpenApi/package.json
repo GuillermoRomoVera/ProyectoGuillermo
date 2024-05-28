@@ -1,0 +1,29 @@
+{
+  "name": "serverexpress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node.test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "chai": "^4.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "moca": "^0.4.3",
+    "mocha": "^10.4.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.9.8",
+    "redoc": "^2.1.4",
+    "redoc-express": "^2.1.0",
+    "routes": "^2.1.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-themes": "^1.4.3",
+    "swagger-ui-express": "^5.0.0"
+  }
+}

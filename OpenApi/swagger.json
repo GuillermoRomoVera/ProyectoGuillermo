@@ -1,0 +1,14 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API LEC 2023",
+      "version": "1.0.0",
+      "description": ""
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080",
+        "description": "Servidor Local para API REST"
+      }
+    ]
+  }

@@ -1,0 +1,94 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API REST ",
+      "version": "1.0.0",
+      "description": "Ejercicio basado en OpenApi"
+    },
+    "paths": {
+      "/usuario": {
+        "get": {
+          "description": "Consultar usuarios",
+          "responses": {
+            "200": {
+              "description": "Returns a mysterious string."
+            }
+          }
+        },
+        "post": {
+          "description": "Welcome to swagger-jsdoc!",
+          "responses": {
+            "200": {
+              "description": "Returns a mysterious string."
+            }
+          }
+        },
+        "delete": {
+          "description": "Welcome to swagger-jsdoc!",
+          "responses": {
+            "200": {
+              "description": "Returns a mysterious string."
+            }
+          }
+        },
+        "put": {
+          "description": "Welcome to swagger-jsdoc!",
+          "responses": {
+            "200": {
+              "description": "Returns a mysterious string."
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Empleados": {
+          "type": "object",
+          "properties": {
+            "Núm. Empleado": {
+              "type": "integer"
+            },
+            "Nombre": {
+              "type": "string"
+            },
+            "Apellido": {
+              "type": "string"
+            },
+            "Correo": {
+              "type": "string",
+              "format": "email"
+            }
+          }
+        },
+        "Menú Productos": {
+          "type": "object",
+          "properties": {
+            "Codigo": {
+              "type": "integer"
+            },
+            "Nombre Producto": {
+              "type": "string"
+            },
+            "Precio": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "Departamento": {
+          "type": "object",
+          "properties": {
+            "IDAréa": {
+              "type": "integer"
+            },
+            "Aréa": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "tags": []
+  }
+  
