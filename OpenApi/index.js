@@ -302,9 +302,7 @@ app.delete("/empleados/:id", async (req, res) => {
     }
 });
 
-
-//TABLA PRODUCTOS
-//SCHEMA
+//SCHEMA PRODUCTOS
 /**
  * @swagger
  * tags:
@@ -341,14 +339,248 @@ app.delete("/empleados/:id", async (req, res) => {
 
 
 
-//
+//TABLA PRODUCTOS
+/**
+ * @swagger
+ * /productos:
+ *   get:
+ *     summary: Obtiene la lista de productos.
+ *     description: Retorna la lista completa de productos almacenados en la base de datos.
+ *     tags:
+ *       - Productos
+ *     responses:
+ *       200:
+ *         description: Éxito. Retorna la lista de productos.
+ *         content:
+ *           application/json:
+ *             example:
+ *               - Codigo: 1
+ *                 Producto: Coca-Cola
+ *                 Precio: "12.50"
+ *                 Marca: Coca-Cola
+ *                 Tamaño: 600ml
+ *       500:
+ *         description: Error interno del servidor.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: Error en la base de datos.
+ */
+app.get("/productos", async (req, res) => {
+    try {
+        const conn = await mysql.createConnection(MySqlConnection);
+        const [rows, fields] = await conn.query('SELECT * FROM Productos');
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json({ mensaje: err.sqlMessage });
+    }
+});
 
+/**
+ * @swagger
+ * /productos/{Codigo}:
+ *   get:
+ *     summary: Obtiene un producto por Código.
+ *     description: Retorna los detalles de un producto específico según el Código proporcionado.
+ *     tags:
+ *       - Productos
+ *     parameters:
+ *       - in: path
+ *         name: Codigo
+ *         required: true
+ *         description: Código del producto a consultar.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Éxito. Retorna los detalles del producto.
+ *         content:
+ *           application/json:
+ *             example:
+ *               Codigo: 1
+ *               Producto: Coca-Cola
+ *               Precio: "12.50"
+ *               Marca: Coca-Cola
+ *               Tamaño: 600ml
+ *       404:
+ *         description: No encontrado. El producto con el Código proporcionado no existe.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: Producto no existe.
+ *       500:
+ *         description: Error interno del servidor.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: Error en la base de datos.
+ */
+app.get("/productos/:Codigo", async (req, res) => {
+    try {
+        const conn = await mysql.createConnection(MySqlConnection);
+        const [rows, fields] = await conn.query('SELECT * FROM Productos WHERE Codigo = ?', [req.params.Codigo]);
+        if (rows.length == 0) {
+            res.status(404).json({ mensaje: "Producto no existe" });
+        } else {
+            res.json(rows[0]);
+        }
+    } catch (err) {
+        res.status(500).json({ mensaje: err.sqlMessage });
+    }
+});
 
+/**
+ * @swagger
+ * /productos:
+ *   post:
+ *     summary: Inserta un nuevo producto.
+ *     description: Inserta un nuevo producto en la base de datos con la información proporcionada.
+ *     tags:
+ *       - Productos
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Producto'
+ *           example:
+ *             Codigo: 6
+ *             Producto: "Galletas Oreo"
+ *             Precio: "14.00"
+ *             Marca: "Oreo"
+ *             Tamaño: "154gr"
+ *     responses:
+ *       200:
+ *         description: Éxito. Producto insertado correctamente.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Producto insertado correctamente.
+ *       500:
+ *         description: Error interno del servidor.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Error al insertar producto.
+ */
+app.post('/productos', async (req, res) => {
+    try {
+        const conn = await mysql.createConnection(MySqlConnection);
+        const { Codigo, Producto, Precio, Marca, Tamaño } = req.body;
 
+        const [rows, fields] = await conn.execute(
+            'INSERT INTO Productos (Codigo, Producto, Precio, Marca, Tamaño) VALUES (?, ?, ?, ?, ?)',
+            [Codigo, Producto, Precio, Marca, Tamaño]
+        );
+
+        res.json({ message: 'Producto insertado correctamente' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al insertar producto' });
+    }
+});
+
+/**
+ * @swagger
+ * /productos/{Codigo}:
+ *   put:
+ *     summary: Actualiza un producto por Código.
+ *     description: Actualiza la información de un producto específico según el Código proporcionado.
+ *     tags:
+ *       - Productos
+ *     parameters:
+ *       - in: path
+ *         name: Codigo
+ *         required: true
+ *         description: Código del producto a actualizar.
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Producto'
+ *           example:
+ *             Producto: "Galletas Oreo"
+ *             Precio: "14.00"
+ *             Marca: "Oreo"
+ *             Tamaño: "154gr"
+ *     responses:
+ *       200:
+ *         description: Éxito. Producto actualizado correctamente.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: ACTUALIZADO
+ *       500:
+ *         description: Error interno del servidor.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: Error en la base de datos.
+ */
+app.put("/productos/:Codigo", async (req, res) => {
+    try {
+        const conn = await mysql.createConnection(MySqlConnection);
+        const { Producto, Precio, Marca, Tamaño } = req.body;
+
+        await conn.query(
+            'UPDATE Productos SET Producto = ?, Precio = ?, Marca = ?, Tamaño = ? WHERE Codigo = ?',
+            [Producto, Precio, Marca, Tamaño, req.params.Codigo]
+        );
+        res.json({ mensaje: "ACTUALIZADO" });
+    } catch (err) {
+        res.status(500).json({ mensaje: err.sqlMessage });
+    }
+});
+
+/**
+ * @swagger
+ * /productos/{Codigo}:
+ *   delete:
+ *     summary: Elimina un producto por Código.
+ *     description: Elimina un producto específico de la base de datos según el Código proporcionado.
+ *     tags:
+ *       - Productos
+ *     parameters:
+ *       - in: path
+ *         name: Codigo
+ *         required: true
+ *         description: Código del producto a eliminar.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Éxito. Producto eliminado correctamente.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: Producto Eliminado
+ *       500:
+ *         description: Error interno del servidor.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: Error en la base de datos.
+ */
+app.delete("/productos/:Codigo", async (req, res) => {
+    try {
+        const conn = await mysql.createConnection(MySqlConnection);
+        const [rows, fields] = await conn.query('DELETE FROM Productos WHERE Codigo = ?', [req.params.Codigo]);
+
+        if (rows.affectedRows == 0) {
+            res.json({ mensaje: "Producto No Eliminado" });
+        } else {
+            res.json({ mensaje: "Producto Eliminado" });
+        }
+    } catch (err) {
+        res.status(500).json({ mensaje: err.sqlMessage });
+    }
+});
 
 
 const swaggerDocs = swaggerjsDoc(swaggerOptions);
-
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.get("/options", (req, res) => {
     res.json(data);
