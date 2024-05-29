@@ -40,6 +40,8 @@ const swaggerOptions = {
     definition: obj,
     apis: [`${path.join(__dirname, "./index.js")}`],
 };
+
+//TABLA EMPLEADOS
 /**
  * @swagger
  * tags:
@@ -299,6 +301,51 @@ app.delete("/empleados/:id", async (req, res) => {
         res.status(500).json({ mensaje: err.sqlMessage });
     }
 });
+
+
+//TABLA PRODUCTOS
+//SCHEMA
+/**
+ * @swagger
+ * tags:
+ *   name: Productos
+ *   description: Operaciones relacionadas con productos
+ *
+ * components:
+ *   schemas:
+ *     Producto:
+ *       type: object
+ *       required:
+ *         - Codigo
+ *         - Producto
+ *         - Precio
+ *         - Marca
+ *         - Tamaño
+ *       properties:
+ *         Codigo:
+ *           type: integer
+ *           description: Código único del producto
+ *         Producto:
+ *           type: string
+ *           description: Nombre del producto
+ *         Precio:
+ *           type: string
+ *           description: Precio del producto
+ *         Marca:
+ *           type: string
+ *           description: Marca del producto
+ *         Tamaño:
+ *           type: string
+ *           description: Tamaño del producto (en gr o ml)
+ */
+
+
+
+//
+
+
+
+
 
 const swaggerDocs = swaggerjsDoc(swaggerOptions);
 
