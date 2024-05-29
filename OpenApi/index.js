@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 app.use(upload.single('archivo'));
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 const PORTE = process.env.MYSQLPORT || 3306;
 const HOST = process.env.MYSQLHOST || 'localhost';
 const USER = process.env.MYSQLUSER || 'root';

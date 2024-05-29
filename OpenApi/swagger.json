@@ -3,7 +3,7 @@
     "info": {
       "title": "API Memo",
       "version": "1.0.0",
-      "description": ""
+      "description": "Tienda aplicada en un Oxxo"
     },
     "servers": [
       {
